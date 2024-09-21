@@ -38,7 +38,7 @@ public class EthernetListner {
 
             if (handle != null) {
 
-                String filter = "ether proto 0x0800";// && ether dst 00:1d:60:63:85:40 && len >= 1500"; //
+                String filter = "ether proto 0x0800 && ether dst 00:1d:60:63:85:40 && len >= 1500"; //
                 handle.setFilter(filter, BpfProgram.BpfCompileMode.OPTIMIZE);
 
                 Thread captureThread = new Thread(() -> { //Создание функционального интерфейса (функциональный интерфейс - интерфейс, у которого есть один метод). Такие интерфейсы можно записать в лямбда выражении.
