@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ab5002d-ba49-4e1f-9606-bdb9d1969c29" name="Changes" comment="newStart1" />
+    <list default="true" id="1ab5002d-ba49-4e1f-9606-bdb9d1969c29" name="Changes" comment="newStartOne">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EthernetListner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/creator_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/frame_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/parser_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_1PMU_TCP.pcap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_1PMU_UDP.pcap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_2PMUsInSync_TCP.pcap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_4in1PMU_TCP.pcap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/main/main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/main/pas.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,14 +42,19 @@
   "associatedIndex": 6
 }]]></component>
   <component name="ProjectId" id="2mNZrmkuzvhDtMIggP5VBarfGsX" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -62,7 +82,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1726919196434</updated>
-      <workItem from="1726919197496" duration="399000" />
+      <workItem from="1726919197496" duration="18296000" />
     </task>
     <task id="LOCAL-00001" summary="newStart">
       <option name="closed" value="true" />
@@ -88,7 +108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726919385269</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="newStartOne">
+      <option name="closed" value="true" />
+      <created>1726919612633</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1726919612633</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,8 +134,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="newStart" />
     <MESSAGE value="newStart1" />
-    <option name="LAST_COMMIT_MESSAGE" value="newStart1" />
+    <MESSAGE value="newStartOne" />
+    <option name="LAST_COMMIT_MESSAGE" value="newStartOne" />
   </component>
 </project>
