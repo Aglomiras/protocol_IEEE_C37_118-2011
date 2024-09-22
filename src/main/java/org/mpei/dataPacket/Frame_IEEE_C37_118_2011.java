@@ -1,4 +1,4 @@
-package org.example;
+package org.mpei.dataPacket;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,10 +6,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Frame_IEEE_C37_118_2011 {
+    /***/
     private String macDestination;
     private String macSource;
     private short type;
-
+    /***/
     private int version;
     private int headerLength;
     private String differentiatedServicesField;
@@ -21,7 +22,7 @@ public class Frame_IEEE_C37_118_2011 {
     private String headerCheckSum;
     private String ipDestination;
     private String ipSource;
-
+    /***/
     private int portDestination;
     private int portSource;
     private int seqNum;
@@ -32,9 +33,11 @@ public class Frame_IEEE_C37_118_2011 {
     private String checkSum;
     private short urgentPointer;
 
-    private DataFrame_IEEE_C37_118_2011 dataFrameIeeeC371182011 = new DataFrame_IEEE_C37_118_2011();
+    /***/
+    private DataFrame_IEEE_C37_118_2011 dataFrameIeeeC371182011;
 
-    public Frame_IEEE_C37_118_2011() {
+    /***/
+    public Frame_IEEE_C37_118_2011(int phasor, int analog) {
         this.macDestination = "0";
         this.macSource = "0";
         this.differentiatedServicesField = "0";
@@ -45,8 +48,10 @@ public class Frame_IEEE_C37_118_2011 {
         this.ipSource = "0";
         this.flags = "0";
         this.checkSum = "0";
+        this.dataFrameIeeeC371182011 = new DataFrame_IEEE_C37_118_2011(phasor, analog);
     }
 
+    /***/
     @Override
     public String toString() {
         return "Frame_IEEE_C37_118_2011 {" + '\n' +

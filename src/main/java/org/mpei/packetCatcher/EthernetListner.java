@@ -1,4 +1,4 @@
-package org.example;
+package org.mpei.packetCatcher;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -13,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Slf4j
 public class EthernetListner {
     //Создадим метод, который будет находить все сетевые карты на компьютере
+    /***/
     static {
         try {
             for (PcapNetworkInterface nic : Pcaps.findAllDevs()) log.info("Found NIC: {}", nic);
@@ -21,6 +22,7 @@ public class EthernetListner {
         }
     }
 
+    /***/
     @Setter
     private String nicName;
     private PcapHandle handle; //Обработчик, который вешается на сетевую карту и позволяет перехватывать пакеты.
@@ -31,6 +33,7 @@ public class EthernetListner {
 //        System.out.println(pcapPacket);
     };
 
+    /***/
     @SneakyThrows
     public void start() {
         if (handle == null) {
@@ -60,6 +63,7 @@ public class EthernetListner {
         }
     }
 
+    /***/
     //Создадим метод для поиска определенной сетевой карты
     @SneakyThrows //Аннотация, которая делает рантайм эксепшены
     private void initializeNetworkInterface() {
@@ -75,6 +79,7 @@ public class EthernetListner {
         }
     }
 
+    /***/
     public void addListener(PacketListener listener) {
         listeners.add(listener);
     }

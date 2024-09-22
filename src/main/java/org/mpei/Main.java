@@ -1,4 +1,8 @@
-package org.example;
+package org.mpei;
+
+import org.mpei.dataPacket.Frame_IEEE_C37_118_2011;
+import org.mpei.packetCatcher.EthernetListner;
+import org.mpei.parserPacket.Parser_IEEE_C37_118_2011;
 
 import java.util.Optional;
 
@@ -13,7 +17,7 @@ public class Main {
             Optional<Frame_IEEE_C37_118_2011> frameC37 = parserC37.parserData(pcapPacket);
 
             if (frameC37.isPresent()) {
-                System.out.println(frameC37.get().toString());
+                System.out.println(frameC37.get());
 
                 System.out.println();
             }
