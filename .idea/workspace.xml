@@ -4,22 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ab5002d-ba49-4e1f-9606-bdb9d1969c29" name="Changes" comment="vers3">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/AnalogValues_IEEE_C37_118_2011.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/Measurement_IEEE_C37_118_2011.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/PMU_IEEE_C37_118_2011.java" afterDir="false" />
+    <list default="true" id="1ab5002d-ba49-4e1f-9606-bdb9d1969c29" name="Changes" comment="version4">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_4PMU/dataPacket/Frame_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_4PMU/dataPacket/PMU_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/FrameListner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/Starter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketConfiguration/dataAnalog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketConfiguration/dataAnalogConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketConfiguration/dataConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketConfiguration/dataDigital.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketConfiguration/dataPhasor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketConfiguration/dataPhasorConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketData/dataMeasurement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dto/dtoFrameC37.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/frame/grandFrame/Frame_Ethernet_TCP_IP_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/frame/grandFrame/General_Frame_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/frame/lowFrame/Frame_Command_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/frame/lowFrame/Frame_Configuration_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/frame/lowFrame/Frame_Data_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/frame/lowFrame/Frame_Header_IEEE_C37_118_2011.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/parserFrame/Parser_All_Frame_IEEE_C37_118_2011.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Creator_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/Creator_IEEE_C37_118_2011.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/DataFrame_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/DataFrame_IEEE_C37_118_2011.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/EthernetListner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/packetCatcher/EthernetListner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Frame_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/Frame_IEEE_C37_118_2011.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PMU_IEEE_C37_118_2011.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Parser_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/parserPacket/Parser_IEEE_C37_118_2011.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_1PMU_TCP.pcap" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/sourcePacket_C37_118_2011/C37.118_1PMU_TCP.pcap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_1PMU_UDP.pcap" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/sourcePacket_C37_118_2011/C37.118_1PMU_UDP.pcap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_2PMUsInSync_TCP.pcap" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/sourcePacket_C37_118_2011/C37.118_2PMUsInSync_TCP.pcap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sourcePacket_C37_118_2011/C37.118_4in1PMU_TCP.pcap" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/sourcePacket_C37_118_2011/C37.118_4in1PMU_TCP.pcap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/Creator_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/creatorPacket/Creator_IEEE_C37_118_2011.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/AnalogValues_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_ALL_FRAME/dataPacketData/dataAnalogChanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/DataFrame_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_4PMU/dataPacket/DataFrame_IEEE_C37_118_2011.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/Frame_IEEE_C37_118_2011.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/Measurement_IEEE_C37_118_2011.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/dataPacket/PMU_IEEE_C37_118_2011.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/packetCatcher/EthernetListner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_4PMU/packetCatcher/EthernetListner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpei/parserPacket/Parser_IEEE_C37_118_2011.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpei/C37_118_2011_4PMU/parserPacket/Parser_IEEE_C37_118_2011.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +43,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -55,10 +70,12 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Application.Main.executor": "Run",
     "Application.Parser_IEEE_C37_118_2011.executor": "Run",
+    "Application.Starter.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Aglomiras/IdeaProjects/protocol_IEEE_C37.118-2011/src/main/java/org/mpei/C37_118_2011_2PMU",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -71,6 +88,15 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Aglomiras\IdeaProjects\protocol_IEEE_C37.118-2011\src\main\java\org\mpei\C37_118_2011_2PMU" />
+      <recent name="C:\Users\Aglomiras\IdeaProjects\protocol_IEEE_C37.118-2011\src\main\java\org\mpei\C37_118_2011_1PMU_UDP" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.mpei.С37_118_2011_ALL_FRAME" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Parser_IEEE_C37_118_2011" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.mpei.parserPacket.Parser_IEEE_C37_118_2011" />
@@ -107,7 +133,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1726919196434</updated>
-      <workItem from="1726919197496" duration="40967000" />
+      <workItem from="1726919197496" duration="91470000" />
     </task>
     <task id="LOCAL-00001" summary="newStart">
       <option name="closed" value="true" />
@@ -157,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726950757160</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="version4">
+      <option name="closed" value="true" />
+      <created>1726967148649</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1726967148649</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +215,7 @@
     <MESSAGE value="newStartOne" />
     <MESSAGE value="vers2" />
     <MESSAGE value="vers3" />
-    <option name="LAST_COMMIT_MESSAGE" value="vers3" />
+    <MESSAGE value="version4" />
+    <option name="LAST_COMMIT_MESSAGE" value="version4" />
   </component>
 </project>

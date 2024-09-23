@@ -1,4 +1,4 @@
-package org.mpei.dataPacket;
+package org.mpei.C37_118_2011_ALL_FRAME.dataPacketData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,11 @@ import lombok.Setter;
 /**---------------------------------------------------------------------------------------------------------------------
  * Класс для аналоговых значений. Содержит одно поле значения с плавающей точкой----------------------------------------
  * -------------------------------------------------------------------------------------------------------------------*/
-public class AnalogValues_IEEE_C37_118_2011 {
-    private float value;
+public class dataAnalogChanel {
+    private float value;                                                                               //Размер: 4 байта
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

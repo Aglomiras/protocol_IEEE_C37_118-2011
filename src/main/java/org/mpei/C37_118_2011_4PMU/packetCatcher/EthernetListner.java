@@ -1,4 +1,4 @@
-package org.mpei.packetCatcher;
+package org.mpei.C37_118_2011_4PMU.packetCatcher;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
