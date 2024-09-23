@@ -38,18 +38,6 @@ public class Frame_Configuration_IEEE_C37_118_2011 {
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
-     * Конструктор:-----------------------------------------------------------------------------------------------------
-     * - Определяет начальную информацию о количестве PMU;--------------------------------------------------------------
-     * -----------------------------------------------------------------------------------------------------------------
-     */
-//    public Frame_Configuration_IEEE_C37_118_2011() {
-//        this.config = "0";
-//        this.resolution = "0";
-//        this.numberPMU = 0;
-//    }
-
-    /**
-     * -----------------------------------------------------------------------------------------------------------------
      * Метод по заполнению массива dataPmu, нужным количеством шаблонов структур----------------------------------------
      * -----------------------------------------------------------------------------------------------------------------
      */
@@ -66,13 +54,12 @@ public class Frame_Configuration_IEEE_C37_118_2011 {
      */
     @Override
     public String toString() {
-        return "Frame_Configuration_IEEE_C37_118_2011 {" +
-                "Config: " + config + '\n' +
-                "Resolution: " + resolution + '\n' +
-                "Number PMU: " + numberPMU + '\n' +
-//                "toStringDataConfiguration" + toStringDataConfiguration() + '\n' +
-//                "dataPmu: " + dataPmu + '\n' +
-                '}';
+        return "\t\tFrame Configuration [IEEE C37.118-2011] {\n" +
+                "\t\t\tConfig: " + this.config + '\n' +
+                "\t\t\tResolution: " + this.resolution + '\n' +
+                "\t\t\tNumber PMU: " + this.numberPMU + '\n' +
+                "\t\t\tConfiguration PMU: \n" + toStringDataConfiguration() + '\n' +
+                "\t\t}";
     }
 
     /**
@@ -83,7 +70,9 @@ public class Frame_Configuration_IEEE_C37_118_2011 {
     public String toStringDataConfiguration() {
         StringBuilder dataConf = new StringBuilder();
         for (int i = 0; i < this.numberPMU; i++) {
-            dataConf.append(dataPmu.get(i).toString()).append("\n");
+            dataConf.append("\t\t\t").append(i + 1)
+                    .append(" ")
+                    .append(dataPmu.get(i).toString());
         }
         return dataConf.toString();
     }

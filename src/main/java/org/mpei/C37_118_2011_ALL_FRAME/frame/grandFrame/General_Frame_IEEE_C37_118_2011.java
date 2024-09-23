@@ -2,6 +2,7 @@ package org.mpei.C37_118_2011_ALL_FRAME.frame.grandFrame;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.mpei.C37_118_2011_1PMU.dataPacket.DtoPacketBleach;
 import org.mpei.C37_118_2011_ALL_FRAME.frame.lowFrame.Frame_Command_IEEE_C37_118_2011;
 import org.mpei.C37_118_2011_ALL_FRAME.frame.lowFrame.Frame_Configuration_IEEE_C37_118_2011;
 import org.mpei.C37_118_2011_ALL_FRAME.frame.lowFrame.Frame_Data_IEEE_C37_118_2011;
@@ -149,7 +150,7 @@ public class General_Frame_IEEE_C37_118_2011 {
                 "\t\tPMU/DC ID number: " + pmuDcIdNumber + '\n' +
                 "\t\tSOC time stamp: " + SOC + '\n' +
                 "\t\tTime quality flag: " + timeQualityFlag + '\n' +
-                "\t\tFraction of second: " + fractionOfSecond + '\n' + '\n' +
+                "\t\tFraction of second: " + fractionOfSecond + '\n' +
                 toStringStructure() +
                 "\t\tCheck sum: 0x" + Integer.toHexString(Integer.parseInt(checkSum)) + '\n' +
                 "\t" + '}';
@@ -163,7 +164,7 @@ public class General_Frame_IEEE_C37_118_2011 {
     public String toStringStructure() {
         StringBuilder sructure = new StringBuilder();
         if (this.recTypePacket == 0) {
-            for (int j = 0; j < this.counterDataFrame; j++) {
+            for (int j = 0; j < this.counterDataFrame; j++) { //4
                 sructure.append("\t\tBlock - " + (j + 1))
                         .append(" [IEEE C37.118-2011]")
                         .append("\n");
@@ -171,8 +172,7 @@ public class General_Frame_IEEE_C37_118_2011 {
                     sructure.append("\t\t")
                             .append(i + 1)
                             .append(" ")
-                            .append(this.frameDataC37.get(i).toString())
-                            .append("\n");
+                            .append(this.frameDataC37.get(i).toString());
                 }
             }
 
@@ -210,7 +210,7 @@ public class General_Frame_IEEE_C37_118_2011 {
     public void typePacket() {
         if (this.recTypePacket == 0) {
             System.out.println("Frame type: Data (данные) - " + recTypePacket);
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < this.counterDataFrame; i++) { //4
                 this.frameDataC37.add(new Frame_Data_IEEE_C37_118_2011());
             }
 

@@ -20,7 +20,7 @@ public class dataConfiguration {
      * Определение формата передаваемого сообщения. Заключает информацию о типах каналов в сообщении--------------------
      * -----------------------------------------------------------------------------------------------------------------
      */
-    private short dataFormat;                                                                          //Размер: 2 байта
+    private String dataFormat;                                                                         //Размер: 2 байта
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
@@ -89,9 +89,18 @@ public class dataConfiguration {
     private String masks;
 
     /**
-     * Счетчик изменений конфигураций
+     * -----------------------------------------------------------------------------------------------------------------
+     * Счетчик изменений конфигураций-----------------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
      */
     private short configChangeCount;
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Скорость изменения частоты---------------------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    private short rateOfTransmission;
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
@@ -100,9 +109,6 @@ public class dataConfiguration {
      * -----------------------------------------------------------------------------------------------------------------
      */
     public dataConfiguration() {
-//        this.numPhasor = 0;
-//        this.numAnalog = 0;
-//        this.numDigital = 0;
     }
 
     /**
@@ -112,20 +118,21 @@ public class dataConfiguration {
      */
     @Override
     public String toString() {
-        return "dataConfiguration {" + "\n" +
-                "PmuDcIdNum: " + pmuDcIdNum + "\n" +
-                "DataFormat: " + dataFormat + "\n" +
-                "NumPhasor: " + numPhasor + "\n" +
-                "NumAnalog: " + numAnalog + "\n" +
-                "NumDigital: " + numDigital + "\n" +
-                "Phasors: " + toStringPhasors() + "\n" +
-                "Analogs: " + toStringAnalogs() + "\n" +
-                "Digital: " + toStringDigitals() + "\n" +
-                "PhasorConverts: " + toStringPhasorConverts() + "\n" +
-                "AnalogsConfig: " + toStringAnalogConfig() + "\n" +
-                "Masks: " + masks + "\n" +
-                "ConfigChangeCount: " + configChangeCount + "\n" +
-                '}';
+        return "Station PMU {" + "\n" +
+                "\t\t\t\tPmuDcIdNum: " + pmuDcIdNum + "\n" +
+                "\t\t\t\tDataFormat: " + dataFormat + "\n" +
+                "\t\t\t\tNumPhasor: " + numPhasor + "\n" +
+                "\t\t\t\tNumAnalog: " + numAnalog + "\n" +
+                "\t\t\t\tNumDigital: " + numDigital + "\n" +
+                "\t\t\t\tPhasors: \n" + toStringPhasors() + "\n" +
+                "\t\t\t\tAnalogs: \n" + toStringAnalogs() + "\n" +
+                "\t\t\t\tDigital: \n" + toStringDigitals() + "\n" +
+//                "\t\t\t\tPhasorConverts: \n" + toStringPhasorConverts() + "\n" +
+//                "\t\t\t\tAnalogsConfig: \n" + toStringAnalogConfig() + "\n" +
+                "\t\t\t\tMasks: " + masks + "\n" +
+                "\t\t\t\tConfigChangeCount: " + configChangeCount + "\n" +
+                "\t\t\t\tRateOfTransmission: " + rateOfTransmission + "\n" +
+                "\t\t\t}";
     }
 
     /**
@@ -136,7 +143,11 @@ public class dataConfiguration {
     public String toStringPhasors() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < phasors.size(); i++) {
-            sb.append(i + 1).append(" ").append(phasors.get(i).toString()).append("\n");
+            sb.append("\t\t\t\t\t")
+                    .append(i + 1)
+                    .append(" ")
+                    .append(phasors.get(i).toString())
+                    .append("\n");
         }
         return sb.toString();
     }
@@ -149,7 +160,11 @@ public class dataConfiguration {
     public String toStringAnalogs() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < analogs.size(); i++) {
-            sb.append(i + 1).append(" ").append(analogs.get(i).toString()).append("\n");
+            sb.append("\t\t\t\t\t")
+                    .append(i + 1)
+                    .append(" ")
+                    .append(analogs.get(i).toString())
+                    .append("\n");
         }
         return sb.toString();
     }
@@ -162,7 +177,11 @@ public class dataConfiguration {
     public String toStringDigitals() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < digital.size(); i++) {
-            sb.append(i + 1).append(" ").append(digital.get(i).toString()).append("\n");
+            sb.append("\t\t\t\t\t")
+                    .append(i + 1)
+                    .append(" ")
+                    .append(digital.get(i).toString())
+                    .append("\n");
         }
         return sb.toString();
     }
@@ -175,7 +194,11 @@ public class dataConfiguration {
     public String toStringPhasorConverts() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < phasorConverts.size(); i++) {
-            sb.append(i + 1).append(" ").append(phasorConverts.get(i).toString()).append("\n");
+            sb.append("\t\t\t\t\t")
+                    .append(i + 1)
+                    .append(" ")
+                    .append(phasorConverts.get(i).toString())
+                    .append("\n");
         }
         return sb.toString();
     }
@@ -188,7 +211,11 @@ public class dataConfiguration {
     public String toStringAnalogConfig() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < analogsConfig.size(); i++) {
-            sb.append(i + 1).append(" ").append(analogsConfig.get(i).toString()).append("\n");
+            sb.append("\t\t\t\t\t")
+                    .append(i + 1)
+                    .append(" ")
+                    .append(analogsConfig.get(i).toString())
+                    .append("\n");
         }
         return sb.toString();
     }
@@ -237,5 +264,24 @@ public class dataConfiguration {
         for (int i = 0; i < this.numDigital; i++) {
             this.digital.add(new dataDigital());
         }
+    }
+
+    public void createObject() {
+        if (Integer.parseInt(this.dataFormat.split("")[15 + 1]) == 1) {
+            System.out.println("Есть ");
+        }
+
+        if (Integer.parseInt(this.dataFormat.split("")[14 + 1]) == 1) {
+            System.out.println("Есть ");
+        }
+
+        if (Integer.parseInt(this.dataFormat.split("")[13 + 1]) == 1) {
+            System.out.println("Есть ");
+        }
+
+        if (Integer.parseInt(this.dataFormat.split("")[12 + 1]) == 1) {
+            System.out.println("Есть ");
+        }
+
     }
 }

@@ -52,6 +52,12 @@ public class Frame_Data_IEEE_C37_118_2011 {
      */
     private String digital;                                                                            //Размер: 2 байта
 
+    private int numPhasor;
+
+    private int numAnalog;
+
+    private int numDigital;
+
     /**
      * -----------------------------------------------------------------------------------------------------------------
      * Конструктор:-----------------------------------------------------------------------------------------------------
@@ -61,12 +67,12 @@ public class Frame_Data_IEEE_C37_118_2011 {
      */
     public Frame_Data_IEEE_C37_118_2011() {
         this.digital = "0";
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < 4; i++) { //14
             this.measurements.add(new dataMeasurement());
         }
-        for (int i = 0; i < 8; i++) {
-            this.analogs.add(new dataAnalogChanel());
-        }
+//        for (int i = 0; i < 8; i++) {
+//            this.analogs.add(new dataAnalogChanel());
+//        }
     }
 
     /**

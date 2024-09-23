@@ -26,7 +26,8 @@ public class Frame_Command_IEEE_C37_118_2011 {
     public String toString() {
         return "\t\tFrame Command [IEEE_C37_118_2011] {" + "\n" +
                 "\t\t\tcommand: " + addZero(Integer.toBinaryString(command), 16) + "\n" +
-                "\t\t}" + "\n";
+                "\t\t\tЗначение: " + recognition() + "\n" +
+                "\t\t}";
     }
 
     /**
@@ -44,5 +45,37 @@ public class Frame_Command_IEEE_C37_118_2011 {
         } else {
             return bits;
         }
+    }
+
+    public String recognition() {
+        String command = addZero(Integer.toBinaryString(this.command), 16);
+        switch (command) {
+            case ("0000000000000001"):
+                command = "Отключите передачу фреймов данных";
+                break;
+            case ("0000000000000010"):
+                command = "Включите передачу фреймов данных";
+                break;
+            case ("0000000000000011"):
+                command = "Отправьте HDR-кадр";
+                break;
+            case ("0000000000000100"):
+                command = "Отправьте кадр CFG-1";
+                break;
+            case ("0000000000000101"):
+                command = "Отправьте кадр CFG-2";
+                break;
+            case ("0000000000000110"):
+                command = "Отправьте кадр CFG-3";
+                break;
+            case ("0000000000001000"):
+                command = "Удлиненный кадр (расширенный кадр)";
+                break;
+            default:
+                command = "Error";
+                break;
+        }
+
+        return command;
     }
 }

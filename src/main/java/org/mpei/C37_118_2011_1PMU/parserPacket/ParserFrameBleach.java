@@ -1,6 +1,7 @@
-package org.mpei.C37_118_2011_ALL_FRAME.parserFrame;
+package org.mpei.C37_118_2011_1PMU.parserPacket;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mpei.C37_118_2011_1PMU.dataPacket.DtoPacketBleach;
 import org.mpei.C37_118_2011_ALL_FRAME.frame.grandFrame.Frame_Ethernet_TCP_IP_IEEE_C37_118_2011;
 import org.pcap4j.core.PcapPacket;
 
@@ -10,9 +11,28 @@ import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
-public class Parser_All_Frame_IEEE_C37_118_2011 {
+public class ParserFrameBleach {
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Сдвиги в пакетах-------------------------------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    private final int optionByte = 12;
+    private final int configByte = 16;
 
-    public Optional<Frame_Ethernet_TCP_IP_IEEE_C37_118_2011> parserData(PcapPacket pcapPacket) {
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Указатель на байт------------------------------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    private int countByte = 0;
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Общий метод по парсингу всех типов кадра протокола IEEE C37.118-2011---------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    public Optional<Frame_Ethernet_TCP_IP_IEEE_C37_118_2011> parserData(PcapPacket pcapPacket, DtoPacketBleach dtoPacketBleach) {
         try {
             /**---------------------------------------------------------------------------------------------------------
              * Принятие массива байт------------------------------------------------------------------------------------
@@ -34,9 +54,12 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
              * 3. Типе протокола;---------------------------------------------------------------------------------------
              * ---------------------------------------------------------------------------------------------------------
              * */
-            frameC37.setMacDestination(byteArrayToMacAddress(data, 0));
-            frameC37.setMacSource(byteArrayToMacAddress(data, 6));
-            frameC37.setType(byteArrayToShort(data, 12));
+            frameC37.setMacDestination(byteArrayToMacAddress(data, countByte));
+            countByte = countByte + 6;
+            frameC37.setMacSource(byteArrayToMacAddress(data, countByte));
+            countByte = countByte + 6;
+            frameC37.setType(byteArrayToShort(data, countByte));
+            countByte = countByte + 2;
 
             /**---------------------------------------------------------------------------------------------------------
              * Internet Protocol----------------------------------------------------------------------------------------
@@ -55,17 +78,27 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
              * 11.IP-адрес источника;-----------------------------------------------------------------------------------
              * ---------------------------------------------------------------------------------------------------------
              * */
-            frameC37.setVersion(byteToIntVersion(data, 14));
-            frameC37.setHeaderLength(byteToIntHeader(data, 14));
-            frameC37.setDifferentiatedServicesField(byteToDiff(data, 15));
-            frameC37.setLength(byteArrayToLength(data, 16));
-            frameC37.setIdentification(byteArrayToString(data, 18));
-            frameC37.setFragmentOffset(byteArrayToString(data, 20));
-            frameC37.setTimeToLife(byteArrayToInt1(data, 22));
-            frameC37.setProtocol(byteArrayToInt1(data, 23));
-            frameC37.setHeaderCheckSum(byteArrayToString(data, 24));
-            frameC37.setIpDestination(byteArrayToIpAddress(data, 26));
-            frameC37.setIpSource(byteArrayToIpAddress(data, 30));
+            frameC37.setVersion(byteToIntVersion(data, countByte));
+            frameC37.setHeaderLength(byteToIntHeader(data, countByte));
+            countByte = countByte + 1;
+            frameC37.setDifferentiatedServicesField(byteToDiff(data, countByte));
+            countByte = countByte + 1;
+            frameC37.setLength(byteArrayToLength(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setIdentification(byteArrayToString(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setFragmentOffset(byteArrayToString(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setTimeToLife(byteArrayToInt1(data, countByte));
+            countByte = countByte + 1;
+            frameC37.setProtocol(byteArrayToInt1(data, countByte));
+            countByte = countByte + 1;
+            frameC37.setHeaderCheckSum(byteArrayToString(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setIpDestination(byteArrayToIpAddress(data, countByte));
+            countByte = countByte + 4;
+            frameC37.setIpSource(byteArrayToIpAddress(data, countByte));
+            countByte = countByte + 4;
 
             /**---------------------------------------------------------------------------------------------------------
              * Transmission Control Protocol----------------------------------------------------------------------------
@@ -81,15 +114,23 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
              * 9. Указатель смещения начиная с порядкового номера;------------------------------------------------------
              * ---------------------------------------------------------------------------------------------------------
              * */
-            frameC37.setPortDestination(byteArrayToShort(data, 34));
-            frameC37.setPortSource(byteArrayToShort(data, 36));
-            frameC37.setSeqNum(byteArrayToInt4(data, 38));
-            frameC37.setAckNum(byteArrayToInt4(data, 42));
-            frameC37.setHeaderLengthTCP(byteToIntVersion(data, 46));
-            frameC37.setFlags(byteArrayToString(data, 46));
-            frameC37.setWindow(byteArrayToShort(data, 48));
+            frameC37.setPortDestination(byteArrayToShort(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setPortSource(byteArrayToShort(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setSeqNum(byteArrayToInt4(data, countByte));
+            countByte = countByte + 4;
+            frameC37.setAckNum(byteArrayToInt4(data, countByte));
+            countByte = countByte + 4;
+            frameC37.setHeaderLengthTCP(byteToIntVersion(data, countByte));
+            frameC37.setFlags(byteArrayToString(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setWindow(byteArrayToShort(data, countByte));
+            countByte = countByte + 2;
             frameC37.setCheckSum(byteArrayToString(data, 50));
+            countByte = countByte + 2;
             frameC37.setUrgentPointer(byteArrayToShort(data, 52));
+            countByte = countByte + 2;
 
             /**
              * ---------------------------------------------------------------------------------------------------------
@@ -101,14 +142,22 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
              * ---------------------------------------------------------------------------------------------------------
              * */
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setSynchronizationWord(byteArrayToString(data, 54));
+                    .setSynchronizationWord(byteArrayToString(data, countByte + optionByte));
+            countByte = countByte + 1;
+
+            /**---------------------------------------------------------------------------------------------------------
+             * Добавление информации о количестве станций---------------------------------------------------------------
+             * ---------------------------------------------------------------------------------------------------------
+             * */
+            frameC37.getGeneral_frame_ieee_c37_118_2011().setCounterDataFrame(dtoPacketBleach.getNumStations());
 
             /**---------------------------------------------------------------------------------------------------------
              * Идентификация типа пакета--------------------------------------------------------------------------------
              * ---------------------------------------------------------------------------------------------------------
              * */
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setRecTypePacket(recognitionTypePacket(data, 55));
+                    .setRecTypePacket(recognitionTypePacket(data, countByte + optionByte));
+            countByte = countByte + 1;
 
             /**---------------------------------------------------------------------------------------------------------
              * Вызов метода, по созданию нужного объекта под тип кадра (ВЫЗЫВАТЬ СРАЗУ ПОСЛЕ ОПРЕДЕЛЕНИЯ ТИПА КАДРА)----
@@ -121,15 +170,19 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
              * ---------------------------------------------------------------------------------------------------------
              * */
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setFrameSize(byteArrayToShort(data, 56));
+                    .setFrameSize(byteArrayToShort(data, countByte + optionByte));
+            countByte = countByte + 2;
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setPmuDcIdNumber(byteArrayToShort(data, 58));
+                    .setPmuDcIdNumber(byteArrayToShort(data, countByte + optionByte));
+            countByte = countByte + 2;
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setSOC(byteToSOC(data, 60));
+                    .setSOC(byteToSOC(data, countByte + optionByte));
+            countByte = countByte + 2;
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setTimeQualityFlag(byteArrayToInt1(data, 64));
+                    .setTimeQualityFlag(byteArrayToInt1(data, countByte + optionByte));
+            countByte = countByte + 1;
             frameC37.getGeneral_frame_ieee_c37_118_2011()
-                    .setFractionOfSecond(byteArrayToInt3(data, 65));
+                    .setFractionOfSecond(byteArrayToInt3(data, countByte + optionByte));
 
             /**---------------------------------------------------------------------------------------------------------
              * Вытаскиваем идентификатор типа пакета--------------------------------------------------------------------
@@ -144,134 +197,28 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
              * */
             if (typeC37 == 0) {
                 /**-----------------------------------------------------------------------------------------------------
-                 * Количество блоков данных-----------------------------------------------------------------------------
+                 * Поочередный парсинг всех блоков данных PMU-----------------------------------------------------------
                  * -----------------------------------------------------------------------------------------------------
                  * */
-                int countDataFrame;
-
-                /**-----------------------------------------------------------------------------------------------------
-                 * Определение по размеру пакета, сколько блоков данных в него входит-----------------------------------
-                 * -----------------------------------------------------------------------------------------------------
-                 * */
-                if (pcapPacket.length() < 1500) {
-                    countDataFrame = 1;
-                } else {
-                    countDataFrame = 3;
-                }
-
-                /**-----------------------------------------------------------------------------------------------------
-                 * Записываем информацию о количестве блоков данных в дополнительное поле класса, для корректного-------
-                 * отображения всех блоков и их PMU---------------------------------------------------------------------
-                 * -----------------------------------------------------------------------------------------------------
-                 * */
-                frameC37.getGeneral_frame_ieee_c37_118_2011().setCounterDataFrame(countDataFrame);
-
-                /**-----------------------------------------------------------------------------------------------------
-                 * Поочередный парсинг всех блоков данных Data Frame----------------------------------------------------
-                 * -----------------------------------------------------------------------------------------------------
-                 * */
-                for (int i = 0; i < countDataFrame; i++) {
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * PMU1---------------------------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись значения флага----------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(0)
-                            .setFlag(byteArrayToString(data, 68 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись амплитуды и угла фазы А-------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .getMeasurements().get(0)
-                            .setAmplitude(byteToFloutAmpl(data, 70 + i * 456));
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37()
-                            .get(0)
-                            .getMeasurements().get(0)
-                            .setAngle(byteToFloutAngle(data, 74 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись амплитуды и угла фазы В-------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .getMeasurements().get(1)
-                            .setAmplitude(byteToFloutAmpl(data, 78 + i * 456));
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .getMeasurements().get(1)
-                            .setAngle(byteToFloutAngle(data, 82 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись амплитуды и угла фазы С-------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .getMeasurements().get(2)
-                            .setAmplitude(byteToFloutAmpl(data, 86 + i * 456));
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .getMeasurements().get(2)
-                            .setAngle(byteToFloutAngle(data, 90 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись сдвига по частоте-------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .setFrequencyDeviation(byteArrayToShort(data, 94 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись скорости изменения частоты----------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .setRate(byteArrayToShort(data, 96 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись служебной информации----------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(0)
-                            .setDigital(byteArrayToString(data, 98 + i * 456));
-
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * PMU2---------------------------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
+                for (int i = 0; i < dtoPacketBleach.getNumStations(); i++) {
                     /**-------------------------------------------------------------------------------------------------
                      * Запись значения флага----------------------------------------------------------------------------
                      * -------------------------------------------------------------------------------------------------
                      * */
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(1)
-                            .setFlag(byteArrayToString(data, 100 + i * 456));
+                            .getFrameDataC37().get(i)
+                            .setFlag(byteArrayToString(data, 68 + i * 38 + optionByte));
 
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись амплитуд и углов каждого фазора-----------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    for (int j = 0; j < 14; j++) {
+                    for (int j = 0; j < dtoPacketBleach.getNumphasors(); j++) {
                         frameC37.getGeneral_frame_ieee_c37_118_2011()
-                                .getFrameDataC37().get(1)
+                                .getFrameDataC37().get(i)
                                 .getMeasurements().get(j)
-                                .setAmplitude(byteToFloutAmpl(data, 102 + j * 8 + i * 456));
+                                .setAmplitude(byteToFloutAmpl(data, 70 + (i * 38) + (j * 8) + optionByte));
+
                         frameC37.getGeneral_frame_ieee_c37_118_2011()
-                                .getFrameDataC37().get(1)
+                                .getFrameDataC37().get(i)
                                 .getMeasurements().get(j)
-                                .setAngle(byteToFloutAngle(data, 106 + j * 8 + i * 456));
+                                .setAngle(byteToFloutAngle(data, 74 + (i * 38) + (j * 8) + optionByte));
                     }
 
                     /**-------------------------------------------------------------------------------------------------
@@ -279,136 +226,23 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
                      * -------------------------------------------------------------------------------------------------
                      * */
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(1)
-                            .setFrequencyDeviation(byteArrayToShort(data, 214 + i * 456));
+                            .getFrameDataC37().get(0)
+                            .setFrequencyDeviation(byteArrayToShort(data, 102 + i * 38 + optionByte));
 
                     /**-------------------------------------------------------------------------------------------------
                      * Запись скорости изменения частоты----------------------------------------------------------------
                      * -------------------------------------------------------------------------------------------------
                      * */
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(1)
-                            .setRate(byteArrayToShort(data, 216 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись значений аналоговых каналов---------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    for (int j = 0; j < 8; j++) {
-                        frameC37.getGeneral_frame_ieee_c37_118_2011()
-                                .getFrameDataC37().get(1)
-                                .getAnalogs().get(j)
-                                .setValue(byteToFloutAmpl(data, 218 + j * 4 + i * 456));
-                    }
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись служебной информации----------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .getFrameDataC37().get(1)
-                            .setDigital(byteArrayToString(data, 250 + i * 456));
-
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * PMU3---------------------------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                            .setFlag(byteArrayToString(data, 252 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись амплитуд и углов каждого фазора-----------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    for (int j = 0; j < 14; j++) {
-                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                                .getMeasurements().get(j)
-                                .setAmplitude(byteToFloutAmpl(data, 254 + j * 8 + i * 456));
-                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                                .getMeasurements().get(j)
-                                .setAngle(byteToFloutAngle(data, 258 + j * 8 + i * 456));
-                    }
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись сдвига по частоте-------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                            .setFrequencyDeviation(byteArrayToShort(data, 366 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись скорости изменения частоты----------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                            .setRate(byteArrayToShort(data, 368 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись значений аналоговых каналов---------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    for (int j = 0; j < 4; j++) {
-                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                                .getAnalogs().get(j)
-                                .setValue(byteToFloutAmpl(data, 370 + j * 4 + i * 456));
-                    }
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись служебной информации----------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(2)
-                            .setDigital(byteArrayToString(data, 386 + i * 456));
-
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * PMU4---------------------------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(3)
-                            .setFlag(byteArrayToString(data, 388 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись амплитуд и углов каждого фазора-----------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    for (int j = 0; j < 14; j++) {
-                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(3)
-                                .getMeasurements().get(j)
-                                .setAmplitude(byteToFloutAmpl(data, 390 + j * 8 + i * 456));
-                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(3)
-                                .getMeasurements().get(j)
-                                .setAngle(byteToFloutAngle(data, 394 + j * 8 + i * 456));
-                    }
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись сдвига по частоте-------------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(3)
-                            .setFrequencyDeviation(byteArrayToShort(data, 502 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись скорости изменения частоты----------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(3)
-                            .setRate(byteArrayToShort(data, 504 + i * 456));
-
-                    /**-------------------------------------------------------------------------------------------------
-                     * Запись служебной информации----------------------------------------------------------------------
-                     * -------------------------------------------------------------------------------------------------
-                     * */
-                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameDataC37().get(3)
-                            .setDigital(byteArrayToString(data, 506 + i * 456));
+                            .getFrameDataC37().get(0)
+                            .setRate(byteArrayToShort(data, 104 + i * 38 + optionByte));
 
                     /**-------------------------------------------------------------------------------------------------
                      * Запись контрольной суммы-------------------------------------------------------------------------
                      * -------------------------------------------------------------------------------------------------
                      * */
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
-                            .setCheckSum(byteArrayToString(data, 508 + i * 456));
+                            .setCheckSum(byteArrayToString(data, 106 + i * 38 + optionByte));
                 }
 
                 /**-----------------------------------------------------------------------------------------------------
@@ -419,64 +253,156 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
                 frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameHeaderC37();
 
                 /**-----------------------------------------------------------------------------------------------------
-                 * 2 - означает кадр конфигурации CFG-1 (Configuration Frame)-------------------------------------------
-                 * -----------------------------------------------------------------------------------------------------
-                 * */
-            } else if (typeC37 == 2) {
-                /**
-                 * CFG-1
-                 * */
-                /**-----------------------------------------------------------------------------------------------------
-                 * Заполнение служебных полей пакета конфигурационного тиа----------------------------------------------
-                 * -----------------------------------------------------------------------------------------------------
-                 * */
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).setConfig(String.valueOf(byteArrayToInt1(data, 68)));
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).setResolution(Integer.toBinaryString(byteArrayToInt3(data, 69)));
-//
-//                short numberPmu = byteArrayToShort(data, 72);
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).setNumberPMU(numberPmu);
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).completionDataConfiguration();
-//
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).setPmuDcIdNum(byteArrayToShort(data, 74));
-//                short numPhasors = byteArrayToShort(data, 76);
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).setNumPhasor(numPhasors);
-//
-//                short numAnalogs = byteArrayToShort(data, 78);
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).setNumAnalog(numAnalogs);
-//
-//                short numDigitals = byteArrayToShort(data, 80);
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).setNumDigital(numDigitals);
-//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).allAddMeasur(); //Создание заданного количества каналов
-
-                /**Запись фазоров*/
-//                for (int j = 0; j < numPhasors; j++) {
-//                    double ampl = byteToDoubleAmpl(data, 82 + j * 16);
-//                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).getPhasors().get(j).setAmplitude(ampl);
-//                    double angle = byteToDoubleAngle(data, 90 + j * 16);
-//                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).getPhasors().get(j).setAngle(angle);
-//                }
-
-                /**Запись аналоговых каналов*/
-//                for (int j = 0; j < numAnalogs; j++) {
-//                    float ampl = byteToFloutAmpl(data, 82 + numPhasors * 16 + j * 16);
-//                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).getAnalogs().get(j).setAmplitude(ampl);
-//                    float angle = byteToFloutAngle(data, 90 + numPhasors * 16 + j * 16);
-//                    frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(0).getAnalogs().get(j).setAngle(angle);
-//                }
-
-                /**Запись цифровых каналов*/
-//                for (int j = 0; j < numDigitals; j++) {
-//
-//                }
-
-
-                /**-----------------------------------------------------------------------------------------------------
                  * 3 - означает кадр конфигурации CFG-2 (Configuration Frame)-------------------------------------------
                  * -----------------------------------------------------------------------------------------------------
                  * */
             } else if (typeC37 == 3) {
                 /**
                  * CFG-2
+                 * */
+                /**-----------------------------------------------------------------------------------------------------
+                 * Заполнение служебных полей пакета конфигурационного типа---------------------------------------------
+                 * -----------------------------------------------------------------------------------------------------
+                 * */
+                frameC37.getGeneral_frame_ieee_c37_118_2011()
+                        .getFrameConfigurationC37().get(0)
+                        .setConfig(String.valueOf(byteArrayToInt1(data, 68 + optionByte)));
+                frameC37.getGeneral_frame_ieee_c37_118_2011()
+                        .getFrameConfigurationC37().get(0)
+                        .setResolution(Integer.toBinaryString(byteArrayToInt3(data, 69 + optionByte)));
+
+                short numberPmu = byteArrayToShort(data, 72 + optionByte);
+                dtoPacketBleach.setNumStations(numberPmu);
+
+                /**
+                 * Записываем количества PMU в пакете
+                 * */
+                frameC37.getGeneral_frame_ieee_c37_118_2011()
+                        .getFrameConfigurationC37().get(0)
+                        .setNumberPMU(numberPmu);
+                /**
+                 * Создаем нужное количество объектов для хранения конфигураций PMU
+                 * */
+                frameC37.getGeneral_frame_ieee_c37_118_2011()
+                        .getFrameConfigurationC37().get(0)
+                        .completionDataConfiguration();
+
+                for (int i = 0; i < numberPmu; i++) {
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setPmuDcIdNum(byteArrayToShort(data, 74 + optionByte + configByte + 110 * i));
+
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setDataFormat(ByteToDataFormat(data, 76 + optionByte + configByte + 110 * i));
+
+                    short numPhasors = byteArrayToShort(data, 78 + optionByte + configByte + 110 * i);
+                    dtoPacketBleach.setNumphasors(numPhasors);
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setNumPhasor(numPhasors);
+
+                    short numAnalogs = byteArrayToShort(data, 80 + optionByte + configByte + 110 * i);
+                    dtoPacketBleach.setNumAnalogs(numAnalogs);
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setNumAnalog(numAnalogs);
+
+                    short numDigitals = byteArrayToShort(data, 82 + optionByte + configByte + 110 * i);
+                    dtoPacketBleach.setNumDigital(numDigitals);
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setNumDigital(numDigitals);
+
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .allAddMeasur();
+
+                    /**
+                     * Запись имен фазоров
+                     * */
+                    for (int j = 0; j < numPhasors; j++) {
+                        String nameAmpl = enCode(data, 84 + j * 16 + optionByte + configByte + 110 * i);
+                        frameC37.getGeneral_frame_ieee_c37_118_2011()
+                                .getFrameConfigurationC37().get(0)
+                                .getDataPmu().get(i)
+                                .getPhasors().get(j)
+                                .setAmplitude(nameAmpl);
+                    }
+
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись размерности-------------------------------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
+                    for (int j = 0; j < numPhasors; j++) {
+                        float angle = byteToFloutAmpl(data, 84 + 64 + j * 4 + optionByte + configByte + 110 * i);
+                        frameC37.getGeneral_frame_ieee_c37_118_2011()
+                                .getFrameConfigurationC37().get(0)
+                                .getDataPmu().get(i)
+                                .getPhasors().get(j)
+                                .setFactor(angle);
+                    }
+
+//                    /**Запись аналоговых каналов*/
+//                    for (int j = 0; j < numAnalogs; j++) {
+//                        float ampl = byteToFloutAmpl(data, 82 + numPhasors * 16 + j * 16);
+//                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(i).getAnalogs().get(j).setAmplitude(ampl);
+//
+//                        float angle = byteToFloutAngle(data, 90 + numPhasors * 16 + j * 16);
+//                        frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37().get(0).getDataPmu().get(i).getAnalogs().get(j).setAngle(angle);
+//                    }
+
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись маски (служебная информация)--------------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setMasks(byteArrayToBits(new byte[]{
+                                    data[84 + 64 + 16 + optionByte + configByte + 110 * i],
+                                    data[84 + 64 + 17 + optionByte + configByte + 110 * i]}));
+
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись количества измерений----------------------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0)
+                            .getDataPmu().get(i)
+                            .setConfigChangeCount(byteArrayToShort(data, 84 + 64 + 18 + optionByte + configByte + 110 * i));
+
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись скорости изменения частоты----------------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameConfigurationC37().get(0).
+                            getDataPmu().get(i)
+                            .setRateOfTransmission(byteArrayToShort(data, 84 + 64 + 20 + optionByte + configByte + 110 * i));
+                }
+
+                /**-----------------------------------------------------------------------------------------------------
+                 * Запись контрольной суммы-----------------------------------------------------------------------------
+                 * -----------------------------------------------------------------------------------------------------
+                 * */
+                frameC37.getGeneral_frame_ieee_c37_118_2011()
+                        .setCheckSum(byteArrayToString(data, 84 + 64 + 22 + optionByte + configByte));
+
+
+                /**-----------------------------------------------------------------------------------------------------
+                 * 2 - означает кадр конфигурации CFG-1 (Configuration Frame)-------------------------------------------
+                 * -----------------------------------------------------------------------------------------------------
+                 * */
+            } else if (typeC37 == 2) {
+                /**
+                 * CFG-1
                  * */
 //                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37();
 
@@ -486,8 +412,8 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
                  * -----------------------------------------------------------------------------------------------------
                  * */
             } else if (typeC37 == 4) {
-                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameCommandC37().get(0).setCommand(byteArrayToShort(data, 68));
-                frameC37.getGeneral_frame_ieee_c37_118_2011().setCheckSum(byteArrayToString(data, 70));
+                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameCommandC37().get(0).setCommand(byteArrayToShort(data, 68 + optionByte));
+                frameC37.getGeneral_frame_ieee_c37_118_2011().setCheckSum(byteArrayToString(data, 70 + optionByte));
 
 
                 /**-----------------------------------------------------------------------------------------------------
@@ -503,6 +429,7 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
             } else {
 
             }
+            countByte = 0;
             return Optional.of(frameC37);
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -517,7 +444,13 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
      * -----------------------------------------------------------------------------------------------------------------
      */
     public static String byteArrayToMacAddress(byte[] data, int offset) {
-        return String.format("%02X:%02X:%02X:%02X:%02X:%02X", data[offset], data[1 + offset], data[2 + offset], data[3 + offset], data[4 + offset], data[5 + offset]);
+        return String.format("%02X:%02X:%02X:%02X:%02X:%02X",
+                data[offset],
+                data[1 + offset],
+                data[2 + offset],
+                data[3 + offset],
+                data[4 + offset],
+                data[5 + offset]);
     }
 
     /**
@@ -526,7 +459,11 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
      * -----------------------------------------------------------------------------------------------------------------
      */
     public static String byteArrayToIpAddress(byte[] data, int offset) {
-        return String.format("%d.%d.%d.%d.", data[offset] & 0xFF, data[1 + offset] & 0xFF, data[2 + offset] & 0xFF, data[3 + offset] & 0xFF);
+        return String.format("%d.%d.%d.%d.",
+                data[offset] & 0xFF,
+                data[1 + offset] & 0xFF,
+                data[2 + offset] & 0xFF,
+                data[3 + offset] & 0xFF);
     }
 
     /**
@@ -662,5 +599,45 @@ public class Parser_All_Frame_IEEE_C37_118_2011 {
      */
     public static int recognitionTypePacket(byte[] data, int offset) {
         return (data[offset] >> 4) & 0xFF;
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Метод по определению формата данных------------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    public static String ByteToDataFormat(byte[] data, int offset) {
+        byte[] byteArray = new byte[2];
+        byteArray[0] = data[offset];
+        byteArray[1] = data[offset + 1];
+        return byteArrayToBits(byteArray);
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Метод для представления числа в битах---------------------------------------------------------------------------
+     * ----------------------------------------------------------------------------------------------------------------
+     */
+    public static String byteArrayToBits(byte[] byteArray) {
+        StringBuilder bits = new StringBuilder();
+
+        for (byte b : byteArray) {
+            String byteToBits = String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
+            bits.append(byteToBits).append(" ");
+        }
+        return bits.toString();
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Метод по переводу байтов в строку--------------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    public String enCode(byte[] data, int offset) {
+        byte[] byteArray = new byte[8];
+        for (int i = 0; i < 8; i++) {
+            byteArray[i] = data[offset + i];
+        }
+        return new String(byteArray);
     }
 }
