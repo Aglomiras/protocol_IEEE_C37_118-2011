@@ -189,21 +189,10 @@ public class Frame_Ethernet_TCP_IP_IEEE_C37_118_2011 {
     /**
      * -----------------------------------------------------------------------------------------------------------------
      * Конструктор:-----------------------------------------------------------------------------------------------------
-     * - Заполняет строковые поля начальными данными, чтобы не было ошибки в начале работы программы;-------------------
      * - Создает структуру с данными по протоколу C37.118-2011;---------------------------------------------------------
      * -----------------------------------------------------------------------------------------------------------------
      */
     public Frame_Ethernet_TCP_IP_IEEE_C37_118_2011() {
-        this.macDestination = "0";
-        this.macSource = "0";
-        this.differentiatedServicesField = "0";
-        this.identification = "0";
-        this.fragmentOffset = "0";
-        this.headerCheckSum = "0";
-        this.ipDestination = "0";
-        this.ipSource = "0";
-        this.flags = "0";
-        this.checkSum = "0";
         this.general_frame_ieee_c37_118_2011 = new General_Frame_IEEE_C37_118_2011();
     }
 
@@ -231,11 +220,11 @@ public class Frame_Ethernet_TCP_IP_IEEE_C37_118_2011 {
                 "\tIP destination: " + ipDestination + '\n' +
                 "\tIP source: " + ipSource + '\n' + '\n' +
 
-                "\tPort destination: " + portDestination + '\n' +
                 "\tPort source: " + portSource + '\n' +
+                "\tPort destination: " + portDestination + '\n' +
                 "\tSequence Number: " + seqNum + '\n' +
                 "\tAcknowledgment: " + ackNum + '\n' +
-                "\tHeader length TCP: " + headerLengthTCP + '\n' +
+                "\tHeader length TCP: " + (headerLengthTCP * 4) + " byte (" + headerLengthTCP + ")" + '\n' +
                 "\tFlags: 0x" + Integer.toHexString(Integer.parseInt(flags)) + '\n' +
                 "\tWindow: " + window + '\n' +
                 "\tChecksum: 0x" + Integer.toHexString(Integer.parseInt(checkSum)) + '\n' +

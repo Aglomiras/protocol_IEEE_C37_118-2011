@@ -43,4 +43,12 @@ public class dataMeasurement {
     public String toString() {
         return "amplitude: " + amplitude + " angle: " + angle;
     }
+
+    public String toStringComplex() {
+        float vectorMnim = (float) (this.angle * Math.PI / 180.0);
+        float vectorAmple = (float) Math.sqrt(this.amplitude * this.amplitude + Math.abs(vectorMnim * vectorMnim));
+        float vectorAngle = (float) Math.atan(vectorMnim/this.amplitude);
+
+        return "amplitude: " + vectorAmple + " V, angle: " + vectorAngle * 180.0 / Math.PI + " degr;";
+    }
 }

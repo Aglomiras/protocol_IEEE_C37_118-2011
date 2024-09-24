@@ -150,7 +150,7 @@ public class General_Frame_IEEE_C37_118_2011 {
                 "\t\tPMU/DC ID number: " + pmuDcIdNumber + '\n' +
                 "\t\tSOC time stamp: " + SOC + '\n' +
                 "\t\tTime quality flag: " + timeQualityFlag + '\n' +
-                "\t\tFraction of second: " + fractionOfSecond + '\n' +
+                "\t\tFraction of second: " + fractionOfSecond + '\n' + '\n' +
                 toStringStructure() +
                 "\t\tCheck sum: 0x" + Integer.toHexString(Integer.parseInt(checkSum)) + '\n' +
                 "\t" + '}';

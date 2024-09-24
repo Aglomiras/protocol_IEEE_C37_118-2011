@@ -114,22 +114,22 @@ public class ParserFrameBleach {
              * 9. Указатель смещения начиная с порядкового номера;------------------------------------------------------
              * ---------------------------------------------------------------------------------------------------------
              * */
-            frameC37.setPortDestination(byteArrayToShort(data, countByte));
-            countByte = countByte + 2;
             frameC37.setPortSource(byteArrayToShort(data, countByte));
+            countByte = countByte + 2;
+            frameC37.setPortDestination(byteArrayToShort(data, countByte));
             countByte = countByte + 2;
             frameC37.setSeqNum(byteArrayToInt4(data, countByte));
             countByte = countByte + 4;
             frameC37.setAckNum(byteArrayToInt4(data, countByte));
             countByte = countByte + 4;
-            frameC37.setHeaderLengthTCP(byteToIntVersion(data, countByte));
+            frameC37.setHeaderLengthTCP(enCodeHeaderLength(data, countByte));
             frameC37.setFlags(byteArrayToString(data, countByte));
             countByte = countByte + 2;
             frameC37.setWindow(byteArrayToShort(data, countByte));
             countByte = countByte + 2;
-            frameC37.setCheckSum(byteArrayToString(data, 50));
+            frameC37.setCheckSum(byteArrayToString(data, countByte));
             countByte = countByte + 2;
-            frameC37.setUrgentPointer(byteArrayToShort(data, 52));
+            frameC37.setUrgentPointer(byteArrayToShort(data, countByte));
             countByte = countByte + 2;
 
             /**
@@ -201,6 +201,16 @@ public class ParserFrameBleach {
                  * -----------------------------------------------------------------------------------------------------
                  * */
                 for (int i = 0; i < dtoPacketBleach.getNumStations(); i++) {
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameDataC37().get(i).setNumPhasor(dtoPacketBleach.getNumphasors().get(i));
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameDataC37().get(i).setNumAnalog(dtoPacketBleach.getNumAnalogs().get(i));
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameDataC37().get(i).setNumDigital(dtoPacketBleach.getNumDigital().get(i));
+
+                    frameC37.getGeneral_frame_ieee_c37_118_2011()
+                            .getFrameDataC37().get(i).creatorSignal();
+
                     /**-------------------------------------------------------------------------------------------------
                      * Запись значения флага----------------------------------------------------------------------------
                      * -------------------------------------------------------------------------------------------------
@@ -209,7 +219,11 @@ public class ParserFrameBleach {
                             .getFrameDataC37().get(i)
                             .setFlag(byteArrayToString(data, 68 + i * 38 + optionByte));
 
-                    for (int j = 0; j < dtoPacketBleach.getNumphasors(); j++) {
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись амплитуды и угла для каждого фазора-------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
+                    for (int j = 0; j < dtoPacketBleach.getNumphasors().get(i); j++) {
                         frameC37.getGeneral_frame_ieee_c37_118_2011()
                                 .getFrameDataC37().get(i)
                                 .getMeasurements().get(j)
@@ -250,7 +264,7 @@ public class ParserFrameBleach {
                  * -----------------------------------------------------------------------------------------------------
                  * */
             } else if (typeC37 == 1) {
-                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameHeaderC37();
+//                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameHeaderC37();
 
                 /**-----------------------------------------------------------------------------------------------------
                  * 3 - означает кадр конфигурации CFG-2 (Configuration Frame)-------------------------------------------
@@ -274,58 +288,81 @@ public class ParserFrameBleach {
                 short numberPmu = byteArrayToShort(data, 72 + optionByte);
                 dtoPacketBleach.setNumStations(numberPmu);
 
-                /**
-                 * Записываем количества PMU в пакете
+                /**-----------------------------------------------------------------------------------------------------
+                 * Записываем количества PMU в пакете-------------------------------------------------------------------
+                 * -----------------------------------------------------------------------------------------------------
                  * */
                 frameC37.getGeneral_frame_ieee_c37_118_2011()
                         .getFrameConfigurationC37().get(0)
                         .setNumberPMU(numberPmu);
-                /**
-                 * Создаем нужное количество объектов для хранения конфигураций PMU
+
+                /**-----------------------------------------------------------------------------------------------------
+                 * Создаем нужное количество объектов для хранения конфигураций PMU-------------------------------------
+                 * -----------------------------------------------------------------------------------------------------
                  * */
                 frameC37.getGeneral_frame_ieee_c37_118_2011()
                         .getFrameConfigurationC37().get(0)
                         .completionDataConfiguration();
 
                 for (int i = 0; i < numberPmu; i++) {
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись служебных полей части кадра С37.118-2011--------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
                             .getFrameConfigurationC37().get(0)
                             .getDataPmu().get(i)
                             .setPmuDcIdNum(byteArrayToShort(data, 74 + optionByte + configByte + 110 * i));
-
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
                             .getFrameConfigurationC37().get(0)
                             .getDataPmu().get(i)
                             .setDataFormat(ByteToDataFormat(data, 76 + optionByte + configByte + 110 * i));
 
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись информации о числе фазоров----------------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
                     short numPhasors = byteArrayToShort(data, 78 + optionByte + configByte + 110 * i);
-                    dtoPacketBleach.setNumphasors(numPhasors);
+                    dtoPacketBleach.getNumphasors().add(numPhasors);
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
                             .getFrameConfigurationC37().get(0)
                             .getDataPmu().get(i)
                             .setNumPhasor(numPhasors);
 
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись информации о числе аналоговых каналов-----------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
                     short numAnalogs = byteArrayToShort(data, 80 + optionByte + configByte + 110 * i);
-                    dtoPacketBleach.setNumAnalogs(numAnalogs);
+                    dtoPacketBleach.getNumAnalogs().add(numAnalogs);
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
                             .getFrameConfigurationC37().get(0)
                             .getDataPmu().get(i)
                             .setNumAnalog(numAnalogs);
 
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись информации о числе цифровых каналов-------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
                     short numDigitals = byteArrayToShort(data, 82 + optionByte + configByte + 110 * i);
-                    dtoPacketBleach.setNumDigital(numDigitals);
+                    dtoPacketBleach.getNumDigital().add(numDigitals);
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
                             .getFrameConfigurationC37().get(0)
                             .getDataPmu().get(i)
                             .setNumDigital(numDigitals);
 
+                    /**-------------------------------------------------------------------------------------------------
+                     * Вызов метода из класса фрейма конфигуратора по созданию нужного количества объектов--------------
+                     * -------------------------------------------------------------------------------------------------
+                     * */
                     frameC37.getGeneral_frame_ieee_c37_118_2011()
                             .getFrameConfigurationC37().get(0)
                             .getDataPmu().get(i)
                             .allAddMeasur();
 
-                    /**
-                     * Запись имен фазоров
+                    /**-------------------------------------------------------------------------------------------------
+                     * Запись имен фазоров------------------------------------------------------------------------------
+                     * -------------------------------------------------------------------------------------------------
                      * */
                     for (int j = 0; j < numPhasors; j++) {
                         String nameAmpl = enCode(data, 84 + j * 16 + optionByte + configByte + 110 * i);
@@ -395,7 +432,6 @@ public class ParserFrameBleach {
                 frameC37.getGeneral_frame_ieee_c37_118_2011()
                         .setCheckSum(byteArrayToString(data, 84 + 64 + 22 + optionByte + configByte));
 
-
                 /**-----------------------------------------------------------------------------------------------------
                  * 2 - означает кадр конфигурации CFG-1 (Configuration Frame)-------------------------------------------
                  * -----------------------------------------------------------------------------------------------------
@@ -415,7 +451,6 @@ public class ParserFrameBleach {
                 frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameCommandC37().get(0).setCommand(byteArrayToShort(data, 68 + optionByte));
                 frameC37.getGeneral_frame_ieee_c37_118_2011().setCheckSum(byteArrayToString(data, 70 + optionByte));
 
-
                 /**-----------------------------------------------------------------------------------------------------
                  * 5 - означает кадр конфигурации CFG-3 (Configuration Frame)-------------------------------------------
                  * -----------------------------------------------------------------------------------------------------
@@ -427,9 +462,10 @@ public class ParserFrameBleach {
 //                frameC37.getGeneral_frame_ieee_c37_118_2011().getFrameConfigurationC37();
 
             } else {
-
+                System.out.println("Unknown type: " + typeC37);
             }
             countByte = 0;
+
             return Optional.of(frameC37);
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -459,7 +495,7 @@ public class ParserFrameBleach {
      * -----------------------------------------------------------------------------------------------------------------
      */
     public static String byteArrayToIpAddress(byte[] data, int offset) {
-        return String.format("%d.%d.%d.%d.",
+        return String.format("%d.%d.%d.%d",
                 data[offset] & 0xFF,
                 data[1 + offset] & 0xFF,
                 data[2 + offset] & 0xFF,
@@ -508,7 +544,7 @@ public class ParserFrameBleach {
      * -----------------------------------------------------------------------------------------------------------------
      */
     public static int byteToIntVersion(byte[] data, int offset) {
-        return (data[offset] >> 4 & 0xFF);
+        return (data[offset] & 0xFF) >> 4;
     }
 
     /**
@@ -639,5 +675,15 @@ public class ParserFrameBleach {
             byteArray[i] = data[offset + i];
         }
         return new String(byteArray);
+    }
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Метод по нахождению длины заголовка TCP--------------------------------------------------------------------------
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+    public int enCodeHeaderLength(byte[] data, int offset) {
+        byte byteL = data[offset];
+        return ((byteL) & 0xFF) >> 4;
     }
 }
